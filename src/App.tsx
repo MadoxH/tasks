@@ -16,6 +16,7 @@ function App(): JSX.Element {
             <Container>
                 <Row>
                     <Col>
+                        <div className="App-rectangle">Red box</div>
                         <ul>
                             <li>First item</li>
                             <li>Second item</li>
@@ -23,6 +24,7 @@ function App(): JSX.Element {
                         </ul>
                     </Col>
                     <Col>
+                        <div className="App-rectangle">Red box</div>
                         <Button onClick={() => console.log("Hello World!")}>
                             Log Hello World
                         </Button>
