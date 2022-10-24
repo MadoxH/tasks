@@ -1,6 +1,6 @@
 import { Answer } from "./interfaces/answer";
 import { Question, QuestionType } from "./interfaces/question";
-import { makeBlankQuestion } from "./objects";
+import { makeBlankQuestion, renameQuestion } from "./objects";
 
 /**
  * Consumes an array of questions and returns a new array with only the questions
@@ -187,7 +187,12 @@ export function renameQuestionById(
     targetId: number,
     newName: string
 ): Question[] {
-    return [];
+    const index = questions.findIndex((a) => a.id === targetId);
+    const renamed = [...questions];
+    if (index > -1) {
+        renamed[index] = renameQuestion(renamed[index], newName);
+    }
+    return renamed;
 }
 
 /***
