@@ -52,7 +52,13 @@ export function findQuestion(
  * with the given `id`.
  */
 export function removeQuestion(questions: Question[], id: number): Question[] {
-    return [];
+    let removed: Question[] = questions.map(
+        (questions: Question): Question => ({ ...questions })
+    );
+    removed = removed.filter(
+        (questions: Question): boolean => questions.id !== id
+    );
+    return removed;
 }
 
 /***
