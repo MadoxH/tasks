@@ -1,6 +1,11 @@
+import { sortAndDeduplicateDiagnostics } from "typescript";
 import { Answer } from "./interfaces/answer";
 import { Question, QuestionType } from "./interfaces/question";
-import { makeBlankQuestion, renameQuestion } from "./objects";
+import {
+    duplicateQuestion,
+    makeBlankQuestion,
+    renameQuestion
+} from "./objects";
 
 /**
  * Consumes an array of questions and returns a new array with only the questions
@@ -238,7 +243,30 @@ export function editOption(
     targetOptionIndex: number,
     newOption: string
 ): Question[] {
-    return [];
+    const index = questions.findIndex((questions) => questions.id == targetId);
+    const editedOption = questions.map(
+        (question: Question): Question => ({
+            ...question,
+            options: [...question.options]
+        })
+    );
+    const addOption = (
+        question: Question,
+        newOption: string,
+        index: number
+    ): Question => {
+        const tempQuestion = { ...question };
+        if (index !== -1) {
+            tempQuestion.options[index] = newOption;
+        } else tempQuestion.options.push(newOption);
+        return tempQuestion;
+    };
+    editedOption[index] = addOption(
+        editedOption[index],
+        newOption,
+        targetOptionIndex
+    );
+    return editedOption;
 }
 
 /***
@@ -252,5 +280,17 @@ export function duplicateQuestionInArray(
     targetId: number,
     newId: number
 ): Question[] {
-    return [];
+    const index = questions.findIndex((questions) => questions.id == targetId);
+    const dupedArray = questions.map(
+        (question: Question): Question => ({
+            ...question,
+            options: [...question.options]
+        })
+    );
+    dupedArray.splice(
+        index + 1,
+        0,
+        duplicateQuestion(newId, dupedArray[index])
+    );
+    return dupedArray;
 }
